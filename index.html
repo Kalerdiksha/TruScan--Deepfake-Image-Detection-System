@@ -1,0 +1,1300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>TrueScan | Final Year Project</title>
+
+  <!-- Favicon for Browser Tab -->
+  <link rel="icon" type="image/webp" href="/static/images/logo.webp">
+  <link rel="icon" type="image/png" href="/static/images/logo.png"> <!-- Fallback -->
+  
+  <!-- Preload Case Images -->
+  <link rel="preload" href="/static/images/woman-loses-scam.png" as="image">
+  <link rel="preload" href="/static/images/company-loses-scam.png" as="image">
+  <link rel="preload" href="/static/images/mom-scam.png" as="image">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;600;700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- Vendor CSS Files -->
+  <link href="/static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/static/vendor/icofont/icofont.min.css" rel="stylesheet">
+  <link href="/static/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="/static/css/style.css" rel="stylesheet">
+  <link href="/static/css/style2.css" rel="stylesheet">
+
+  <style>
+   
+   :root {
+      --primary-color: #F8FAFC;
+      --secondary-color: #DDE9F6;
+      --accent-color: #6BA8E0;
+      --gold-accent: #FFD700;
+      --text-color: #2A4365;
+      --bg-color: #FFFFFF;
+      --card-bg: #FFFFFF;
+      --shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      --border-radius: 10px;
+      --transition: all 0.3s ease-in-out;
+    }
+
+    body {
+      font-family: 'Roboto', sans-serif;
+      background-image: url('/static/images/tech-background.jpg');
+      background-size: cover;
+      background-attachment: fixed;
+      background-position: center;
+      color: var(--text-color);
+      line-height: 1.6;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.8);
+      z-index: -1;
+    }
+
+    h1, h2, h3 {
+      font-family: 'Lato', sans-serif;
+      font-weight: 600;
+      color: var(--text-color);
+      text-align: center;
+    }
+
+    a { text-decoration: none; }
+
+    /* Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(50px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes scaleUp {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .animate-fadeIn {
+      opacity: 0;
+      animation: fadeIn 0.6s ease-out forwards;
+    }
+
+    .animate-slideUp {
+      opacity: 0;
+      animation: slideUp 0.6s ease-out forwards;
+    }
+
+    .animate-scaleUp {
+      opacity: 0;
+      animation: scaleUp 0.3s ease-out forwards;
+    }
+
+    .loading-spinner {
+      display: none;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 50px;
+      height: 50px;
+      border: 5px solid var(--accent-color);
+      border-top-color: var(--gold-accent);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      z-index: 10;
+    }
+
+    @keyframes spin {
+      to { transform: translate(-50%, -50%) rotate(360deg); }
+    }
+
+    .hero-img.loading .loading-spinner { display: block; }
+    .hero-img.loading #preview-img, .hero-img.loading #result-div, .hero-img.loading #warning-div { opacity: 0; }
+
+    header.navbar {
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      padding: 0.75rem 0;
+      box-shadow: var(--shadow);
+      position: fixed;
+      width: 100%;
+      z-index: 1000;
+    }
+
+    .navbar-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    .navbar-brand {
+      display: flex;
+      align-items: center;
+    }
+
+    .navbar-brand img {
+      height: 40px;
+      margin-right: 1rem;
+    }
+
+    .navbar-brand h1 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin: 0;
+    }
+
+    .navbar-brand h1 a { color: var(--text-color); }
+
+    .navbar-nav {
+      display: flex;
+      align-items: center;
+    }
+
+    .nav-item { margin-left: 1.5rem; }
+    .nav-link {
+      color: var(--text-color);
+      font-size: 0.95rem;
+      font-weight: 500;
+      padding: 0.4rem 1.2rem;
+      background: var(--card-bg);
+      border: 1px solid var(--accent-color);
+      border-radius: 25px;
+      transition: var(--transition);
+    }
+
+    .nav-link:hover {
+      background: var(--accent-color);
+      color: var(--bg-color);
+    }
+
+    #hero {
+      min-height: 90vh;
+      background: url('/static/images/Lead_deepfake.gif') no-repeat center center;
+      background-size: cover;
+      display: flex;
+      align-items: center;
+    padding: 4rem 0;
+      position: relative;
+    }
+
+    #hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.2);
+      z-index: 1;
+    }
+
+    #hero .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      text-align: center;
+      position: relative;
+      z-index: 2;
+    }
+
+    #hero h1 { 
+      font-size: 3.2rem; 
+      line-height: 1.2; 
+      margin-bottom: 1rem; 
+    }
+    #hero h2 { 
+      font-size: 1.2rem; 
+      font-weight: 400; 
+      color: var(--text-color); 
+      margin-bottom: 2rem; 
+    }
+  
+
+    .upload-button {
+      background: linear-gradient(90deg, var(--accent-color), var(--gold-accent));
+      color: var(--bg-color);
+      padding: 0.75rem 2rem;
+      font-size: 1.1rem;
+      font-weight: 600;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .upload-button:hover {
+      background: linear-gradient(90deg, var(--gold-accent), var(--accent-color));
+    }
+
+    .hero-img {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2rem;
+      position: relative;
+      max-width: 360px;
+      margin: 2rem auto;
+    }
+
+    #preview-img {
+      display: none;
+      width: 100%;
+      max-width: 360px;
+      height: auto;
+      max-height: 300px;
+      object-fit: contain;
+      border-radius: var(--border-radius);
+      margin-bottom: 1rem;
+      box-shadow: var(--shadow);
+      background-color: var(--card-bg);
+      padding: 0.5rem;
+    }
+
+    #result-div {
+      margin-top: 1.5rem;
+      width: 100%;
+      max-width: 360px;
+      background: var(--card-bg);
+      padding: 1rem;
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      display: none;
+    }
+
+    #result-div label { 
+      font-size: 1rem; 
+      font-weight: 600; 
+      color: var(--text-color); 
+      margin-bottom: 0.5rem; 
+      display: block; 
+    }
+
+    #result-tag {
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      text-align: center;
+    }
+
+    #result-tag.real {
+      color: #28a745; /* Green for Real */
+    }
+
+    #result-tag.fake {
+      color: #FF6347; /* Red for Fake */
+    }
+
+    #output { 
+      width: 100%; 
+      border: 1px solid var(--secondary-color); 
+      border-radius: 8px; 
+      padding: 0.75rem; 
+      font-size: 0.9rem; 
+      background: var(--bg-color); 
+      color: var(--text-color); 
+      resize: none; 
+    }
+
+    #warning-div {
+      margin-top: 1rem;
+      width: 100%;
+      max-width: 360px;
+      background: rgba(255, 99, 71, 0.05);
+      padding: 1rem;
+      border-radius: var(--border-radius);
+      border: 1px solid #FF6347;
+      text-align: center;
+      color: #FF6347;
+      font-weight: 600;
+      font-size: 1rem;
+      display: none;
+    }
+
+    section {
+      padding: 4rem 0;
+      opacity: 0;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    #deepfake-impact {
+      background: var(--bg-color);
+    }
+
+    #deepfake-impact .container {
+      display: flex;
+      flex-wrap: wrap;
+      padding: 0;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    #deepfake-impact .image-section {
+      flex: 1;
+      padding-left: 20px;
+      padding-right: 20px;
+    }
+
+    #deepfake-impact .image-section img {
+      width: 100%;
+      max-width: 100%;
+      height: auto;
+      max-height: 400px;
+      object-fit: cover;
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+    }
+
+    #deepfake-impact .content-section {
+      flex: 2;
+      padding-left: 20px;
+      padding-right: 20px;
+    }
+
+    #deepfake-impact .content-section h2 {
+      font-size: 2rem;
+      color: var(--text-color);
+      margin-bottom: 1rem;
+      text-align: left;
+    }
+
+    #deepfake-impact .content-section p {
+      font-size: 1rem;
+      color: #718096;
+      margin-bottom: 20px;
+      text-align: justify;
+    }
+
+    #deepfake-impact .tabs {
+      display: flex;
+      border-bottom: 2px solid var(--secondary-color);
+      margin-bottom: 10px;
+    }
+
+    #deepfake-impact .tab {
+      padding: 10px 20px;
+      cursor: pointer;
+      border: 1px solid var(--secondary-color);
+      border-bottom: none;
+      color: var(--text-color);
+      transition: var(--transition);
+    }
+
+    #deepfake-impact .tab.active {
+      background-color: var(--card-bg);
+      font-weight: bold;
+      border-top: 2px solid var(--accent-color);
+    }
+
+    #deepfake-impact .tab-content {
+      border: 1px solid var(--secondary-color);
+      padding: 20px;
+      background: var(--card-bg);
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      text-align: justify;
+    }
+
+    #deepfake-impact .features {
+      display: flex;
+      justify-content: space-around;
+      padding: 40px 20px;
+      background-color: var(--primary-color);
+    }
+
+    #deepfake-impact .feature-box {
+      max-width: 300px;
+      padding: 20px;
+      background: var(--card-bg);
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      text-align: center;
+    }
+
+    #deepfake-impact .feature-box .icon {
+      width: 60px;
+      height: 60px;
+      background: var(--accent-color);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1rem;
+      color: var(--bg-color);
+      font-size: 1.5rem;
+    }
+
+    #deepfake-impact .feature-box h3 {
+      margin-top: 0;
+      font-size: 1.2rem;
+      color: var(--text-color);
+    }
+
+    #deepfake-impact .feature-box p {
+      font-size: 0.9rem;
+      color: #718096;
+      text-align: justify;
+    }
+
+    #what-is-deepfake-detection {
+      background: var(--bg-color);
+      text-align: center;
+    }
+
+    #what-is-deepfake-detection .section {
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 0;
+      max-width: 1200px;
+      margin: 0 auto;
+      gap: 20px;
+    }
+
+    #what-is-deepfake-detection .text-column {
+      flex: 4;
+      padding: 20px;
+      background-color: var(--card-bg);
+      border-radius: var(--border-radius);
+      text-align: left;
+    }
+
+    #what-is-deepfake-detection .text-column h2 {
+      font-size: 2rem;
+      margin-bottom: 10px;
+      color: var(--text-color);
+    }
+
+    #what-is-deepfake-detection .text-column p {
+      font-size: 1rem;
+      margin-bottom: 20px;
+      color: #718096;
+    }
+
+    #what-is-deepfake-detection .image-column {
+      flex: 1;
+      border-radius: var(--border-radius);
+      max-width: 200px;
+      height: auto;
+    }
+
+    #what-is-deepfake-detection .image-column img {
+      width: 100%;
+      height: auto;
+      max-height: 350px;
+      object-fit: cover;
+      border-radius: var(--border-radius);
+    }
+
+    #why-deepfake-detector {
+      background: var(--bg-color);
+      text-align: center;
+    }
+
+    #why-deepfake-detector .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 40px;
+      align-items: flex-start;
+    }
+
+    #why-deepfake-detector .left-text {
+      flex: 1;
+      min-width: 300px;
+      text-align: left;
+    }
+
+    #why-deepfake-detector .left-text span {
+      color: var(--accent-color);
+      font-weight: bold;
+      background-color: var(--secondary-color);
+      padding: 6px 12px;
+      border-radius: 12px;
+      display: inline-block;
+    }
+
+    #why-deepfake-detector .left-text h2 {
+      font-size: 2.5rem;
+      color: var(--text-color);
+      margin-top: 20px;
+      margin-bottom: 20px;
+      text-align: left;
+    }
+
+    #why-deepfake-detector .left-text p {
+      font-size: 1rem;
+      color: #718096;
+      margin: 20px 0;
+      text-align: justify;
+    }
+
+    #why-deepfake-detector .left-text .explore-button {
+      display: inline-block;
+      padding: 12px 24px;
+      background-color: var(--accent-color);
+      color: var(--bg-color);
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: var(--transition);
+    }
+
+    #why-deepfake-detector .left-text .explore-button:hover {
+      background-color: #4b8ac8;
+    }
+
+    #why-deepfake-detector .features {
+      flex: 2;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+
+    #why-deepfake-detector .feature-card {
+      background-color: var(--card-bg);
+      border: 1px solid var(--secondary-color);
+      border-radius: var(--border-radius);
+      padding: 24px;
+      box-shadow: var(--shadow);
+      transition: var(--transition);
+    }
+
+    #why-deepfake-detector .feature-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    }
+
+    #why-deepfake-detector .feature-card .checkmark {
+      font-size: 1.5rem;
+      color: var(--accent-color);
+    }
+
+    #why-deepfake-detector .feature-card h3 {
+      margin: 16px 0 8px;
+      font-size: 1.5rem;
+      color: var(--text-color);
+    }
+
+    #why-deepfake-detector .feature-card p {
+      color: #718096;
+      font-size: 0.9rem;
+      text-align: justify;
+    }
+
+    #why-deepfake-detector .feature-card a {
+      color: var(--accent-color);
+      font-weight: bold;
+      text-decoration: none;
+      transition: var(--transition);
+    }
+
+    #why-deepfake-detector .feature-card a:hover {
+      color: var(--gold-accent);
+    }
+
+    #real-cases-of-deepfake-fraud {
+      background: var(--bg-color);
+      text-align: center;
+    }
+
+    #real-cases-of-deepfake-fraud .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    #real-cases-of-deepfake-fraud .heading {
+      font-size: 2.5rem;
+      font-weight: 600;
+      margin-bottom: 50px;
+      color: var(--text-color);
+    }
+
+    #real-cases-of-deepfake-fraud .fraud-section {
+      display: flex;
+      gap: 30px;
+      align-items: stretch;
+    }
+
+    #real-cases-of-deepfake-fraud .cases-list {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    #real-cases-of-deepfake-fraud .case-btn {
+      background-color: var(--card-bg);
+      border: 1px solid var(--secondary-color);
+      border-radius: var(--border-radius);
+      padding: 16px 20px;
+      font-size: 1rem;
+      cursor: pointer;
+      text-align: left;
+      transition: var(--transition);
+      color: var(--text-color);
+    }
+
+    #real-cases-of-deepfake-fraud .case-btn:hover {
+      background-color: var(--secondary-color);
+    }
+
+    #real-cases-of-deepfake-fraud .case-btn.active {
+      background-color: var(--accent-color);
+      color: var(--bg-color);
+    }
+
+    #real-cases-of-deepfake-fraud .image-box {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(to right, var(--accent-color), var(--gold-accent));
+      border-radius: var(--border-radius);
+      overflow: hidden;
+      max-width: 300px;
+      height: 300px;
+    }
+
+    #real-cases-of-deepfake-fraud .image-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      will-change: transform, opacity;
+      transition: opacity 0.2s ease-in-out;
+    }
+
+    #real-cases-of-deepfake-fraud .details {
+      flex: 1.5;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    #real-cases-of-deepfake-fraud .details h3 {
+      font-size: 1.4rem;
+      margin-bottom: 10px;
+      color: var(--text-color);
+    }
+
+    #real-cases-of-deepfake-fraud .details p {
+      font-size: 1rem;
+      line-height: 1.6;
+      color: #718096;
+      text-align: justify;
+    }
+
+    #real-cases-of-deepfake-fraud .details .cta-button {
+      margin-top: 20px;
+      padding: 12px 20px;
+      background-color: var(--accent-color);
+      color: var(--bg-color);
+      border: none;
+      border-radius: var(--border-radius);
+      font-weight: bold;
+      cursor: pointer;
+      width: fit-content;
+      transition: var(--transition);
+    }
+
+    #real-cases-of-deepfake-fraud .details .cta-button:hover {
+      background-color: #4b8ac8;
+    }
+
+    #details {
+      background: linear-gradient(180deg, var(--bg-color), var(--primary-color));
+      text-align: center;
+    }
+
+    #details .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    #details h3 {
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+    }
+
+    #details p {
+      font-size: 1rem;
+      color: #718096;
+      margin-bottom: 1.5rem;
+      text-align: justify;
+    }
+
+    #details ul {
+      list-style: none;
+      padding: 0;
+      display: grid;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    #details ul li {
+      display: flex;
+      align-items: center;
+      font-size: 0.95rem;
+      padding: 0.75rem;
+      background: var(--card-bg);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+      justify-content: center;
+    }
+
+    #details canvas {
+      max-width: 800px; /* Increased width */
+      max-height: 450px; /* Added height */
+      margin: 1.5rem auto;
+      border-radius: var(--border-radius);
+      padding: 1rem;
+      background: linear-gradient(45deg, #D8BFD8, #E6E6FA); /* Lighter gradient */
+      box-shadow: var(--shadow);
+      display: block;
+    }
+
+    #details a { color: var(--accent-color); }
+    #details a:hover { color: var(--gold-accent); }
+
+    .faq-subsection {
+      text-align: center;
+    }
+
+    .faq-subsection a {
+      display: block;
+      color: var(--accent-color);
+      margin-bottom: 0.5rem;
+    }
+
+    .faq-subsection a:hover {
+      color: var(--gold-accent);
+    }
+
+    #footer {
+      background: var(--primary-color);
+      color: var(--text-color);
+      padding: 2rem 0;
+      text-align: center;
+    }
+
+    #footer .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    #footer .copyright a,
+    #footer .quick-links a {
+      color: var(--accent-color);
+      font-weight: 500;
+      margin: 0 10px;
+    }
+
+    #footer .copyright a:hover,
+    #footer .quick-links a:hover {
+      color: var(--gold-accent);
+    }
+
+    @media (max-width: 992px) {
+      #real-cases-of-deepfake-fraud .fraud-section {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      #real-cases-of-deepfake-fraud .image-box {
+        max-width: 100%;
+        height: 350px;
+      }
+
+      .navbar-container {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .navbar-nav {
+        margin-top: 1rem;
+        width: 100%;
+        justify-content: flex-end;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="navbar fixed-top">
+    <div class="navbar-container">
+      <div class="navbar-brand">
+        <img src="/static/images/logo.webp" alt="TrueScan Logo">
+        <h1><a href="/">TrueScan</a></h1>
+      </div>
+      <nav class="navbar-nav">
+        <nav class="navbar-nav">
+            <a href="#hero" class="nav-link">Home</a>
+            <a href="#details" class="nav-link">Experimental Results</a>
+            <a href="#faq" class="nav-link">FAQ</a>
+        </nav>
+      </nav>
+    </div>
+  </header>
+
+  <section id="hero" class="d-flex align-items-center animate-fadeIn">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-6 d-flex flex-column justify-content-center align-items-stretch pt-5 pt-lg-0 order-2 order-lg-1">
+          <div>
+            <h1 id="upload-heading">TrueScan</h1>
+            <h2>A final-year project to detect AI-generated images</h2>
+            <form aria-labelledby="upload-heading">
+              <input type="file" id="imageUpload" accept="image/jpeg, image/jpg, image/png" style="display: none;" aria-label="Upload image for deepfake detection">
+              <label for="imageUpload" class="upload-button animate-scaleUp">Get Started</label>
+            </form>
+          </div>
+        </div>
+        <div class="col-lg-6 d-flex flex-column align-items-stretch order-1 order-lg-2 hero-img">
+          <img id="preview-img" src="" alt="Uploaded image preview">
+          <div class="loading-spinner"></div>
+          <div id="result-div">
+            <label>Prediction Result:</label>
+            <div id="result-tag"></div>
+            <textarea class="form-control" rows="2" id="output" aria-live="polite"></textarea>
+          </div>
+          <div id="warning-div">DETECTED DEEPFAKES</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="deepfake-impact" class="animate-fadeIn">
+    <div class="container">
+      <div class="image-section">
+        <img src="/static/images/DeepfakeDetection_Facebook.gif" alt="Deepfake Impact" class="animate-scaleUp" loading="lazy">
+      </div>
+      <div class="content-section animate-slideUp">
+        <h2>Deepfake Images: Impact on Individuals and Businesses</h2>
+        <p>Today, deepfake images are so sophisticated that using our eyes alone, we cannot differentiate between what’s real and what’s fake.</p>
+        <div class="tabs">
+          <div class="tab active" id="individual-tab" onclick="showTab('individual')">For Individuals</div>
+          <div class="tab" id="business-tab" onclick="showTab('business')">For Businesses</div>
+        </div>
+        <div class="tab-content" id="tab-content">
+          <p>Individuals may face identity theft through deepfake images circulated on social media. Using our TrueScan, individuals can analyze images and filter out AI-generated content, offering probabilities as an initial guide for further investigation.</p>
+        </div>
+      </div>
+    </div>
+    <div class="features">
+      <div class="feature-box animate-slideUp">
+        <div class="icon">✔</div>
+        <h3>No Hidden Cost</h3>
+        <p>We offer transparent pricing with no unexpected fees, ensuring you know exactly what you're paying for.</p>
+      </div>
+      <div class="feature-box animate-slideUp" style="animation-delay: 0.2s">
+        <div class="icon">👥</div>
+        <h3>Dedicated Support</h3>
+        <p>Our team is here to provide personalized assistance, ensuring seamless integration and usage.</p>
+      </div>
+      <div class="feature-box animate-slideUp" style="animation-delay: 0.4s">
+        <div class="icon">🔒</div>
+        <h3>Protect Your Work</h3>
+        <p>Safeguard your projects from deepfake misuse with our advanced detection technology.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="what-is-deepfake-detection" class="animate-fadeIn">
+    <div class="container">
+      <div class="section">
+        <div class="text-column animate-slideUp">
+          <h2>What is Deepfake Detection?</h2>
+          <p>
+            Deepfake detection uses advanced AI to identify manipulated images created by synthetic media tools. Our technology analyzes subtle anomalies to expose AI-generated content.
+          </p>
+          <p>
+            <strong>Image Detection:</strong><br>
+            ✔ Spots AI-generated faces (e.g., MidJourney)<br>
+            ✔ Detects skin texture anomalies
+          </p>
+        </div>
+        <div class="image-column">
+          <img src="/static/images/deepfake detection.jpg" alt="Deepfake Impact" class="animate-scaleUp" loading="lazy">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="why-deepfake-detector" class="animate-fadeIn">
+    <div class="container">
+      <div class="left-text animate-slideUp">
+        <span>Why Choosing Us!</span>
+        <h2>Why our TrueScan<br>is the best?</h2>
+        <p>
+          Our TrueScan has proven to be the market leader by demonstrating its effectiveness across numerous individuals, companies and featured on popular USA news websites, successfully identifying deepfakes that could potentially lead to significant financial losses.
+        </p>
+        <a href="#" class="explore-button animate-scaleUp" id="explore-more-button">Explore More</a>
+      </div>
+      <div class="features">
+        <div class="feature-card animate-slideUp">
+          <div class="checkmark">✔</div>
+          <h3>Best Accuracy</h3>
+          <p>Our detector achieves the highest accuracy in the market for identifying the probability of whether an image was generated by AI or is authentic.</p>
+          <a href="How-does-deepfake-detection-work.html">Read More →</a>
+        </div>
+        <div class="feature-card animate-slideUp" style="animation-delay: 0.2s">
+          <div class="checkmark">✔</div>
+          <h3>Robust Detection</h3>
+          <p>Our system can identify deepfakes even with subtle manipulations, ensuring reliable detection across various scenarios.</p>
+          <a href="How-does-deepfake-detection-work.html">Read More →</a>
+        </div>
+        <div class="feature-card animate-slideUp" style="animation-delay: 0.4s">
+          <div class="checkmark">✔</div>
+          <h3>Easy API Integration</h3>
+          <p>Our API is easy to integrate into your business system; simply call our API to obtain the results.</p>
+          <a href="How-does-deepfake-detection-work.html">Read More →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Real Cases of Deepfake Fraud Section -->
+  <section id="real-cases-of-deepfake-fraud" class="animate-fadeIn">
+    <div class="container">
+      <div class="heading animate-slideUp">Real Cases of Deepfake Fraud</div>
+      <div class="fraud-section">
+        <div class="cases-list">
+          <div class="case-btn active" onclick="updateCase(event, 'case1')">📄 Woman Loses Rs 1,688.58 USD</div>
+          <div class="case-btn" onclick="updateCase(event, 'case2')">📄 Company Loses $25.6 Million by a Deepfake Scam</div>
+          <div class="case-btn" onclick="updateCase(event, 'case3')">📄 Mom, these bad men have me</div>
+        </div>
+        <div class="image-box">
+          <img src="/static/images/woman-loses-scam.webp" alt="AI scam illustration" id="caseImage" class="animate-scaleUp" width="300" height="200">
+        </div>
+        <div class="details" id="textSection">
+          <h3 id="caseTitle" class="animate-slideUp">Woman loses Rs 1,688.58 USD in AI voice scam</h3>
+          <p id="caseDescription" class="animate-slideUp">
+            A woman in Hyderabad lost Rs 1.4 lakh (1,688.58 USD) to a scammer using AI to mimic her nephew's voice,
+            claiming he needed money due to an accident. The scam, involving a late-night call and a plea for secrecy,
+            deceived her into transferring funds. Authorities warn that despite the rarity of AI voice scams, the public
+            should verify such urgent financial requests to prevent fraud.
+          </p>
+          <button class="cta-button animate-scaleUp" id="ctaButton" onclick="document.getElementById('hero').scrollIntoView({ behavior: 'smooth' })">
+            Protect Yourself Now
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="details" class="animate-fadeIn">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-md-10 pt-5 order-2 order-md-1">
+          <h3 class="animate-slideUp">Experimental Results</h3>
+          <p class="animate-slideUp">
+            We trained a Vision Transformer (ViT) model for deepfake detection using a dataset of 200 images (100 Real, 100 Fake), split into 60% training (120 images) and 40% testing (80 images). The ViT backbone was frozen, and only the classifier head was fine-tuned to optimize performance on our small dataset. The following hyperparameters were used:
+          </p>
+          <ul>
+            <li class="animate-slideUp"><i class="icofont-check"></i> Input Size: 224 x 224</li>
+            <li class="animate-slideUp" style="animation-delay: 0.2s"><i class="icofont-check"></i> Batch Size: 4</li>
+            <li class="animate-slideUp" style="animation-delay: 0.4s"><i class="icofont-check"></i> Optimizer: Adam</li>
+            <li class="animate-slideUp" style="animation-delay: 0.6s"><i class="icofont-check"></i> Learning Rate: 1e-5</li>
+            <li class="animate-slideUp" style="animation-delay: 0.8s"><i class="icofont-check"></i> Dropout Rate: 0.5</li>
+            <li class="animate-slideUp" style="animation-delay: 1.0s"><i class="icofont-check"></i> Regularization: Weight Decay with 0.02</li>
+          </ul>
+          <p>
+            <canvas id="accuracyChart" class="animate-scaleUp"></canvas>
+          </p>
+          <ul>
+            <li class="animate-slideUp"><i class="icofont-check"></i> Accuracy: 92%</li>
+            <li class="animate-slideUp" style="animation-delay: 0.2s"><i class="icofont-check"></i> Precision: 90%</li>
+            <li class="animate-slideUp" style="animation-delay: 0.4s"><i class="icofont-check"></i> Recall: 93%</li>
+        </div>
+      </div>
+      <div id="faq" class="row justify-content-center pt-5">
+        <div class="col-md-10">
+          <h3 class="animate-slideUp">Frequently Asked Questions</h3>
+          <div class="faq-subsection animate-slideUp">
+            <a href="what-is-deepfake.html">What is a deepfake?</a>
+            <a href="How-does-deepfake-detection-work.html">How does deepfake detection work?</a>
+            <a href="what-are-dangers-of-deepfake-images.html">What are the dangers of deepfake images?</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer id="footer" class="animate-fadeIn">
+    <div class="container">
+      <div class="copyright">
+        <strong><a href="https://github.com/aaronchong888/TrueScan-Detect">GitHub</a></strong> | © 2025 Final Year Project, All Rights Reserved.
+      </div>
+      
+    </div>
+  </footer>
+
+  <script src="/static/vendor/jquery/jquery.min.js"></script>
+  <script src="/static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="/static/vendor/jquery.easing/jquery.easing.min.js"></script>
+
+  <script>
+    document.getElementById('imageUpload').addEventListener('change', function(e) {
+      console.log("Upload started");
+      const file = e.target.files[0];
+      if (!file) {
+        console.log("No file selected");
+        alert("Please select an image to upload.");
+        return;
+      }
+      
+      const validFormats = ['image/jpeg', 'image/jpg', 'image/png'];
+      if (!validFormats.includes(file.type)) {
+        alert('Please upload a JPG or PNG image only.');
+        e.target.value = '';
+        return;
+      }
+      
+      if (file.size > 50 * 1024 * 1024) {
+        alert('File size exceeds 50MB limit');
+        e.target.value = '';
+        return;
+      }
+
+      // Display image preview
+      const previewImg = document.getElementById('preview-img');
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        previewImg.src = e.target.result;
+        previewImg.style.display = 'block';
+      };
+      reader.readAsDataURL(file);
+  
+      // Show loading spinner
+      const heroImg = document.querySelector('.hero-img');
+      heroImg.classList.add('loading');
+  
+      // Prepare form data
+      const formData = new FormData();
+      formData.append('file', file);
+  
+      // Make API request to Flask back-end
+      fetch('/upload', {
+        method: 'POST',
+        body: formData
+      })
+      .then(response => response.json())
+      .then(data => {
+        heroImg.classList.remove('loading');
+        if (data.error) {
+          alert(data.error);
+          previewImg.style.display = 'none';
+          return;
+        }
+        const output = document.getElementById('output');
+        const resultTag = document.getElementById('result-tag');
+        output.value = `Confidence: ${data.confidence}%`;
+        resultTag.textContent = data.prediction;
+        resultTag.className = data.prediction === 'Real' ? 'real' : 'fake';
+        document.getElementById('result-div').style.display = 'block';
+        document.getElementById('warning-div').style.display = data.prediction === 'Fake' && parseFloat(data.confidence) > 80 ? 'block' : 'none';
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        heroImg.classList.remove('loading');
+        previewImg.style.display = 'none';
+        alert('An error occurred while processing the image. Please try again.');
+      })
+      .finally(() => {
+        e.target.value = ''; // Clear the input
+      });
+    });
+  
+    function showTab(tabName) {
+      const individualTab = document.getElementById('individual-tab');
+      const businessTab = document.getElementById('business-tab');
+      const content = document.getElementById('tab-content');
+  
+      if (tabName === 'individual') {
+        individualTab.classList.add('active');
+        businessTab.classList.remove('active');
+        content.innerHTML = `
+          <p>Individuals may face identity theft through deepfake images circulated on social media. Using our TrueScan, individuals can analyze images and filter out AI-generated content, offering probabilities as an initial guide for further investigation.</p>
+        `;
+      } else {
+        businessTab.classList.add('active');
+        individualTab.classList.remove('active');
+        content.innerHTML = `
+          <p>Businesses can lose a lot of money to scammers using deepfake voices of important people in the company to ask for investment money. This has happened before and will likely increase. Using our TrueScan, businesses can help their employees to either use our extension or integrate our API into their work environment to verify the authenticity of all received audio messages, calls, or meetings.</p>
+        `;
+      }
+    }
+  
+    document.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('explore-more-button').addEventListener('click', (e) => {
+        e.preventDefault();
+        document.getElementById('hero').scrollIntoView({ behavior: 'smooth' });
+      });
+  
+      const sections = document.querySelectorAll('section, footer');
+      const observer = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('animate-fadeIn');
+            const slideUpElements = entry.target.querySelectorAll('.animate-slideUp');
+            const scaleUpElements = entry.target.querySelectorAll('.animate-scaleUp');
+            slideUpElements.forEach((el, index) => {
+              el.style.animationDelay = `${index * 0.2}s`;
+              el.classList.add('animate-slideUp');
+            });
+            scaleUpElements.forEach((el, index) => {
+              el.style.animationDelay = `${index * 0.2}s`;
+              el.classList.add('animate-scaleUp');
+            });
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.1 });
+  
+      sections.forEach(section => {
+        observer.observe(section);
+      });
+  
+      // Render the Accuracy vs. Epochs Chart
+      const ctx = document.getElementById('accuracyChart').getContext('2d');
+      new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: ['Epoch 1', 'Epoch 2', 'Epoch 3', 'Epoch 4', 'Epoch 5'],
+          datasets: [{
+            label: 'Accuracy (%)',
+            data: [75, 82, 87, 90, 92],
+            borderColor: '#6BA8E0', // Accent Blue
+            backgroundColor: 'rgba(107, 168, 224, 0.2)', // Accent Blue with opacity
+            fill: true,
+            tension: 0.4,
+            pointBackgroundColor: 'rgba(138, 43, 226, 1)',
+            pointBorderColor: '#fff',
+            pointHoverBackgroundColor: '#fff',
+            pointHoverBorderColor: 'rgba(138, 43, 226, 1)'
+          }]
+        },
+        options: {
+          responsive: true,
+          backgroundColor: '#F5F5F5', // Light background for chart area
+          plugins: {
+            legend: {
+              display: true,
+              position: 'top',
+              labels: {
+                color: '#4B0082' // Indigo
+              }
+            },
+            title: {
+              display: true,
+              text: 'Accuracy vs. Epochs',
+              color: '#4B0082', // Indigo
+              font: {
+                size: 16
+              }
+            }
+          },
+          scales: {
+            x: {
+              title: {
+                display: true,
+                text: 'Epoch',
+                color: '#4B0082' // Indigo
+              },
+              ticks: {
+                color: '#4B0082' // Indigo
+              }
+            },
+            y: {
+              title: {
+                display: true,
+                text: 'Accuracy (%)',
+                color: '#4B0082' // Indigo
+              },
+              ticks: {
+                color: '#4B0082', // Indigo
+                beginAtZero: false,
+                min: 70,
+                max: 100,
+                stepSize: 5
+              }
+            }
+          }
+        }
+      });
+    });
+  
+    const caseData = {
+      case1: {
+        title: "Woman loses Rs 1,688.58 USD in AI voice scam",
+        description: `A woman in Hyderabad lost Rs 1.4 lakh (1,688.58 USD) to a scammer using AI to mimic her nephew's voice, claiming he needed money due to an accident. The scam, involving a late-night call and a plea for secrecy, deceived her into transferring funds. Authorities warn that despite the rarity of AI voice scams, the public should verify such urgent financial requests to prevent fraud.`,
+        image: "/static/images/woman-loses-scam.png",
+        button: "Protect Yourself Now"
+      },
+      case2: {
+        title: "Company Loses $25.6 Million by a Deepfake Scam",
+        description: `A finance worker at a multinational firm was tricked into sending $25 million due to a deepfake video call with fraudsters posing as the CFO and colleagues. The scam, uncovered after verification with the company's head office, led to six arrests and highlights the risks of deepfake technology in fraud. This incident is among several exploiting deepfakes for criminal purposes, raising global concern over the technology's misuse.`,
+        image: "/static/images/company-loses-scam.png",
+        button: "Protect Your Company Now"
+      },
+      case3: {
+        title: "Mom, these bad men have me",
+        description: `Jennifer DeStefano received a call claiming her daughter Brianna was kidnapped, demanding a $1 million ransom, which turned out to be a scam involving a voice cloning AI. The terrifying experience, full of threats and ransom negotiations, ended with the relief of discovering Brianna was safe. The incident highlighted the sophisticated nature of modern scams, exploiting AI to clone voices and manipulate families, causing significant distress and confusion.`,
+        image: "/static/images/mom-scam.png",
+        button: "Protect Your Family Now"
+      }
+    };
+  
+    function updateCase(event, caseKey) {
+      const { title, description, image, button } = caseData[caseKey];
+      
+      requestAnimationFrame(() => {
+        document.getElementById("caseTitle").innerText = title;
+        document.getElementById("caseDescription").innerText = description;
+        const caseImage = document.getElementById("caseImage");
+        caseImage.style.opacity = '0';
+        setTimeout(() => {
+          caseImage.src = image;
+          caseImage.style.opacity = '1';
+        }, 200);
+        document.getElementById("ctaButton").innerText = button;
+  
+        document.querySelectorAll('.case-btn').forEach(btn => btn.classList.remove('active'));
+        event.currentTarget.classList.add('active');
+      });
+    }
+  </script>
+  
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'937c407dfb6a4502',t:'MTc0NTkwMjk5Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

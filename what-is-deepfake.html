@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>What is Deepfake? | DeepFake Image Detector</title>
+
+  <link rel="icon" type="image/webp" href="/static/images/logo.webp">
+  <link rel="icon" type="image/png" href="/static/images/logo.png"> <!-- Fallback -->
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;600;700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="/static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+  <style>
+    :root {
+      --primary-color: #F8FAFC;
+      --secondary-color: #DDE9F6;
+      --accent-color: #6BA8E0;
+      --gold-accent: #FFD700;
+      --text-color: #2A4365;
+      --bg-color: #FFFFFF;
+      --card-bg: #FFFFFF;
+      --shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      --border-radius: 10px;
+      --transition: all 0.3s ease-in-out;
+    }
+
+    body {
+      font-family: 'Roboto', sans-serif;
+      color: var(--text-color);
+      line-height: 1.6;
+      background: var(--bg-color);
+      scroll-behavior: smooth; /* Enable smooth scrolling for anchor links */
+    }
+
+    h1, h2, h3, h4 {
+      font-family: 'Lato', sans-serif;
+      font-weight: 600;
+      color: var(--text-color);
+    }
+
+    a { text-decoration: none; }
+
+    /* Navbar */
+    header.navbar {
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      padding: 0.75rem 0;
+      box-shadow: var(--shadow);
+      position: fixed;
+      width: 100%;
+      z-index: 1000;
+    }
+
+    .navbar-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    .navbar-brand {
+      display: flex;
+      align-items: center;
+    }
+
+    .navbar-brand img {
+      height: 40px; /* Adjust height to fit the navbar */
+      width: auto; /* Maintain aspect ratio */
+      object-fit: contain; /* Ensure the logo isn't distorted */
+      margin-right: 0.5rem; /* Space between logo and text */
+    }
+
+    .navbar-brand h1 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin: 0;
+    }
+
+    .navbar-brand h1 a { 
+      color: var(--text-color); 
+    }
+
+    .navbar-nav { 
+      display: flex; 
+      align-items: center; 
+    }
+    .nav-item { 
+      margin-left: 1.5rem; 
+    }
+    .nav-link {
+      color: var(--text-color);
+      font-size: 0.95rem;
+      font-weight: 500;
+      padding: 0.4rem 1.2rem;
+      background: var(--card-bg);
+      border: 1px solid var(--accent-color);
+      border-radius: 25px;
+      transition: var(--transition);
+    }
+
+    .nav-link:hover {
+      background: var(--accent-color);
+      color: var(--bg-color);
+    }
+
+    /* General Section Styling */
+    section {
+      padding: 4rem 0;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    /* Hero Section */
+    #hero {
+      padding-top: 6rem;
+      text-align: center;
+    }
+
+    #hero h1 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+
+    #hero p {
+      font-size: 1.1rem;
+      color: #718096;
+      margin-bottom: 2rem;
+    }
+
+    /* What is Deepfake Section */
+    #what-is-deepfake {
+      text-align: center;
+    }
+
+    #what-is-deepfake img {
+      width: 100%;
+      max-width: 400px;
+      border-radius: var(--border-radius);
+      margin: 2rem 0;
+    }
+
+    #what-is-deepfake h2 {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      text-transform: uppercase;
+    }
+
+    /* How Deepfakes Work Section */
+    #how-deepfakes-work {
+      background: var(--primary-color);
+    }
+
+    #how-deepfakes-work h2 {
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+    }
+
+    #how-deepfakes-work ol {
+      padding-left: 1.5rem;
+    }
+
+    #how-deepfakes-work li {
+      font-size: 1rem;
+      color: #718096;
+      margin-bottom: 1rem;
+    }
+
+    #how-deepfakes-work .cta {
+      text-align: center;
+      margin-top: 2rem;
+    }
+
+    #how-deepfakes-work .cta a {
+      display: inline-block;
+      padding: 0.75rem 1.5rem;
+      background: var(--accent-color);
+      color: var(--bg-color);
+      border-radius: 5px;
+      font-weight: 600;
+      transition: var(--transition);
+    }
+
+    #how-deepfakes-work .cta a:hover {
+      background: #4b8ac8;
+    }
+
+    /* Are Deepfakes Dangerous Section */
+    #are-deepfakes-dangerous {
+      background: var(--bg-color);
+    }
+
+    #are-deepfakes-dangerous h2 {
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+    }
+
+    #are-deepfakes-dangerous .danger-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+    }
+
+    #are-deepfakes-dangerous .danger-item {
+      background: var(--card-bg);
+      border: 1px solid var(--secondary-color);
+      border-radius: var(--border-radius);
+      padding: 1.5rem;
+      box-shadow: var(--shadow);
+    }
+
+    #are-deepfakes-dangerous .danger-item h4 {
+      font-size: 1.2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    #are-deepfakes-dangerous .danger-item p {
+      font-size: 0.9rem;
+      color: #718096;
+    }
+
+    /* How to Spot Deepfakes Section */
+    #how-to-spot-deepfakes {
+      background: var(--primary-color);
+    }
+
+    #how-to-spot-deepfakes h2 {
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+    }
+
+    #how-to-spot-deepfakes .spot-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+
+    #how-to-spot-deepfakes .spot-item {
+      background: var(--card-bg);
+      border: 1px solid var(--secondary-color);
+      border-radius: var(--border-radius);
+      padding: 1.5rem;
+      box-shadow: var(--shadow);
+    }
+
+    #how-to-spot-deepfakes .spot-item h4 {
+      font-size: 1.2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    #how-to-spot-deepfakes .spot-item ul {
+      padding-left: 1.5rem;
+      font-size: 0.9rem;
+      color: #718096;
+    }
+
+    #how-to-spot-deepfakes .warning {
+      background: #FFF9E6;
+      border: 1px solid #FFD700;
+      border-radius: var(--border-radius);
+      padding: 1rem;
+      margin-top: 1.5rem;
+      font-size: 0.9rem;
+      color: #718096;
+      text-align: center;
+    }
+
+    /* How to Protect Yourself Section */
+    #how-to-protect {
+      background: var(--bg-color);
+    }
+
+    #how-to-protect h2 {
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+    }
+
+    #how-to-protect ol {
+      padding-left: 1.5rem;
+    }
+
+    #how-to-protect li {
+      font-size: 1rem;
+      color: #718096;
+      margin-bottom: 1rem;
+    }
+
+    #how-to-protect .cta {
+      text-align: center;
+      margin-top: 2rem;
+    }
+
+    #how-to-protect .cta a {
+      display: inline-block;
+      padding: 0.75rem 1.5rem;
+      background: var(--accent-color);
+      color: var(--bg-color);
+      border-radius: 5px;
+      font-weight: 600;
+      transition: var(--transition);
+    }
+
+    #how-to-protect .cta a:hover {
+      background: #4b8ac8;
+    }
+
+    /* FAQs Section */
+    #faqs {
+      background: var(--primary-color);
+    }
+
+    #faqs h2 {
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+    }
+
+    #faqs .faq-item {
+      border-bottom: 1px solid var(--secondary-color);
+      padding: 1rem 0;
+    }
+
+    #faqs .faq-item h4 {
+      font-size: 1.1rem;
+      margin-bottom: 0.5rem;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    #faqs .faq-item h4::after {
+      content: '▼';
+      font-size: 0.8rem;
+    }
+
+    #faqs .faq-item p {
+      font-size: 0.9rem;
+      color: #718096;
+      display: none;
+    }
+
+    #faqs .faq-item.active p {
+      display: block;
+    }
+
+    #faqs .faq-item.active h4::after {
+      content: '▲';
+    }
+
+    @media (max-width: 768px) {
+      #how-to-spot-deepfakes .spot-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="navbar fixed-top">
+    <div class="navbar-container">
+      <div class="navbar-brand">
+        <h1><a href="/"><img src="/static/images/logo.webp" alt="TrueScan Logo">TrueScan</a></h1>
+      </div>
+      <nav class="navbar-nav">
+        <a href="/" class="nav-link">Home</a>
+        <a href="#what-is-deepfake" class="nav-link">What is Deepfake?</a>
+        <a href="#faqs" class="nav-link">FAQ</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section id="hero">
+    <div class="container">
+      <h1>What is Deepfake? The Complete Guide to AI-Generated Fake Media</h1>
+      <p>Deepfake technology is revolutionizing how we create and consume media, but also poses significant risks. Learn what deepfakes are, how they work, their potential dangers, and how to protect yourself.</p>
+    </div>
+  </section>
+
+  <!-- What is Deepfake Section -->
+  <section id="what-is-deepfake">
+    <div class="container">
+      <img src="/static/images/what-is-deepfake.jpg" alt="Deepfake illustration">
+      <h2>What is Deepfake?</h2>
+      <p>Deepfakes refer to synthetic media where a person’s likeness—either audio or visual—is replaced with someone else’s using artificial intelligence (AI). The term comes from “deep learning” and “fake.” While some deepfakes are harmless, others can cause significant harm, such as identity theft, misinformation, and fraud. Damage caused by deepfakes includes financial loss, reputational harm, and societal mistrust.</p>
+    </div>
+  </section>
+
+  <!-- How Deepfakes Work Section -->
+  <section id="how-deepfakes-work">
+    <div class="container">
+      <h2>How Do Deepfakes Work?</h2>
+      <ol>
+        <li><strong>Generative Adversarial Networks (GANs):</strong> Two AI models work together—one generates fake content, the other critiques it until the fake becomes convincing.</li>
+        <li><strong>Autoencoders:</strong> These compress and reconstruct data to map one person’s facial features onto another’s.</li>
+        <li><strong>Neural Networks:</strong> Advanced algorithms analyze and replicate voices, facial movements, and body language.</li>
+        <li><strong>Common Deepfake Techniques:</strong>
+          <ul>
+            <li>Face Generation: Creating entirely synthetic faces using AI models like GANs.</li>
+            <li>Face Manipulation: Altering facial features or expressions in existing images.</li>
+            <li>Image Blending: Combining elements from multiple images to create a seamless fake.</li>
+          </ul>
+        </li>
+      </ol>
+      <div class="cta">
+        <a href="/">Use our advanced AI detection tools to verify suspicious media content!</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Are Deepfakes Dangerous Section -->
+  <section id="are-deepfakes-dangerous">
+    <div class="container">
+      <h2>Are Deepfakes Dangerous?</h2>
+      <p>While deepfakes have legitimate uses (like in entertainment), they pose serious risks:</p>
+      <div class="danger-grid">
+        <div class="danger-item">
+          <h4>Misinformation & Fake News</h4>
+          <p>Deepfakes can create convincing fake videos of public figures, spreading false information.</p>
+        </div>
+        <div class="danger-item">
+          <h4>Fraud & Scams</h4>
+          <p>Scammers use deepfake voices or videos to impersonate CEOs or loved ones, tricking victims into sending money.</p>
+        </div>
+        <div class="danger-item">
+          <h4>Revenge Porn</h4>
+          <p>Non-consensual deepfake pornography is a growing issue, causing emotional and reputational harm.</p>
+        </div>
+        <div class="danger-item">
+          <h4>Identity Theft</h4>
+          <p>Deepfakes can bypass facial recognition security systems, leading to unauthorized access.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How to Spot Deepfakes Section -->
+  <section id="how-to-spot-deepfakes">
+    <div class="container">
+      <h2>How to Spot Deepfakes</h2>
+      <div class="spot-grid">
+        <div class="spot-item">
+          <h4>Video or Image Deepfake Signs</h4>
+          <ul>
+            <li>Unnatural blinking or facial movements</li>
+            <li>Inconsistent lighting or shadows</li>
+            <li>Blurry or distorted edges around the face</li>
+          </ul>
+        </div>
+        <div class="spot-item">
+          <h4>Audio Deepfake Signs</h4>
+          <ul>
+            <li>Unnatural pauses or tone shifts</li>
+            <li>Background noise inconsistencies</li>
+            <li>Voice doesn’t match known speech patterns</li>
+          </ul>
+        </div>
+      </div>
+      <div class="warning">
+        Warning: Some high-quality deepfakes may show none of these signs. For accuracy, use our deepfake detection tools.
+      </div>
+    </div>
+  </section>
+
+  <!-- How to Protect Yourself Section -->
+  <section id="how-to-protect">
+    <div class="container">
+      <h2>How to Protect Yourself</h2>
+      <ol>
+        <li><strong>Use Detection Tools:</strong> Leverage AI tools like ours to analyze suspicious media.</li>
+        <li><strong>Verify Sources:</strong> Cross-check information from trusted sources before acting.</li>
+        <li><strong>Stay Informed:</strong> Follow cybersecurity news to understand deepfake trends.</li>
+        <li><strong>Legal Action:</strong> If you’re a victim, report to authorities—deepfake fraud is illegal in many regions (e.g., the EU’s AI Act regulates deepfake misuse).</li>
+      </ol>
+      <div class="cta">
+        <a href="/">Test our deepfake detection system now!</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQs Section -->
+  <section id="faqs">
+    <div class="container">
+      <h2>FAQs About Deepfakes</h2>
+      <div class="faq-item">
+        <h4>Can deepfakes be illegal?</h4>
+        <p>Yes, deepfakes can be illegal if used for fraud, defamation, or harassment. Laws vary by country, but many regions are implementing regulations to combat deepfake misuse.</p>
+      </div>
+      <div class="faq-item">
+        <h4>Are all deepfakes harmful?</h4>
+        <p>No, some deepfakes are used for entertainment, education, or art. However, malicious deepfakes can cause significant harm.</p>
+      </div>
+      <div class="faq-item">
+        <h4>How can businesses protect against deepfakes?</h4>
+        <p>Businesses can use deepfake detection tools, train employees to recognize scams, and implement secure authentication methods.</p>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    document.querySelectorAll('#faqs .faq-item h4').forEach(item => {
+      item.addEventListener('click', () => {
+        const parent = item.parentElement;
+        parent.classList.toggle('active');
+      });
+    });
+  </script>
+</body>
+</html>

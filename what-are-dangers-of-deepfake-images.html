@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>What Are the Dangers of Deepfake Images? | TrueScan</title>
+
+  <link rel="icon" type="image/webp" href="/static/images/logo.webp">
+  <link rel="icon" type="image/png" href="/static/images/logo.png"> <!-- Fallback -->
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;600;700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="/static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+  <style>
+    :root {
+      --primary-color: #F8FAFC;
+      --secondary-color: #DDE9F6;
+      --accent-color: #6BA8E0;
+      --gold-accent: #FFD700;
+      --text-color: #2A4365;
+      --bg-color: #FFFFFF;
+      --card-bg: #FFFFFF;
+      --shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      --border-radius: 10px;
+      --transition: all 0.3s ease-in-out;
+    }
+
+    body {
+      font-family: 'Roboto', sans-serif;
+      color: var(--text-color);
+      line-height: 1.6;
+      background: var(--bg-color);
+      scroll-behavior: smooth; /* Enable smooth scrolling for anchor links */
+    }
+
+    h1, h2, h3, h4 {
+      font-family: 'Lato', sans-serif;
+      font-weight: 600;
+      color: var(--text-color);
+    }
+
+    a { text-decoration: none; }
+
+    /* Navbar */
+    header.navbar {
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      padding: 0.75rem 0;
+      box-shadow: var(--shadow);
+      position: fixed;
+      width: 100%;
+      z-index: 1000;
+    }
+
+    .navbar-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    .navbar-brand {
+      display: flex;
+      align-items: center;
+    }
+
+    .navbar-brand img {
+      height: 40px; /* Adjust height to fit the navbar */
+      width: auto; /* Maintain aspect ratio */
+      object-fit: contain; /* Ensure the logo isn't distorted */
+      margin-right: 0.5rem; /* Space between logo and text */
+    }
+
+    .navbar-brand h1 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin: 0;
+    }
+
+    .navbar-brand h1 a { 
+      color: var(--text-color); 
+    }
+
+    .navbar-nav { 
+      display: flex; 
+      align-items: center; 
+    }
+    .nav-item { 
+      margin-left: 1.5rem; 
+    }
+    .nav-link {
+      color: var(--text-color);
+      font-size: 0.95rem;
+      font-weight: 500;
+      padding: 0.4rem 1.2rem;
+      background: var(--card-bg);
+      border: 1px solid var(--accent-color);
+      border-radius: 25px;
+      transition: var(--transition);
+    }
+
+    .nav-link:hover {
+      background: var(--accent-color);
+      color: var(--bg-color);
+    }
+
+    /* General Section Styling */
+    section {
+      padding: 4rem 0;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    /* Hero Section */
+    #hero {
+      padding-top: 6rem;
+      text-align: center;
+    }
+
+    #hero h1 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+
+    #hero p {
+      font-size: 1.1rem;
+      color: #718096;
+      margin-bottom: 2rem;
+    }
+
+    /* Overview Section */
+    #overview {
+      text-align: center;
+    }
+
+    #overview img {
+      width: 100%;
+      max-width: 400px;
+      border-radius: var(--border-radius);
+      margin: 2rem 0;
+    }
+
+    #overview h2 {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      text-transform: uppercase;
+    }
+
+    /* Dangers Section */
+    #dangers {
+      background: var(--primary-color);
+    }
+
+    #dangers h2 {
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+    }
+
+    #dangers .danger-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+    }
+
+    #dangers .danger-item {
+      background: var(--card-bg);
+      border: 1px solid var(--secondary-color);
+      border-radius: var(--border-radius);
+      padding: 1.5rem;
+      box-shadow: var(--shadow);
+    }
+
+    #dangers .danger-item h4 {
+      font-size: 1.2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    #dangers .danger-item p {
+      font-size: 0.9rem;
+      color: #718096;
+    }
+
+    /* Impact Section */
+    #impact {
+      background: var(--bg-color);
+    }
+
+    #impact h2 {
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+    }
+
+    #impact ul {
+      padding-left: 1.5rem;
+      font-size: 1rem;
+      color: #718096;
+    }
+
+    #impact li {
+      margin-bottom: 1rem;
+    }
+
+    #impact .cta {
+      text-align: center;
+      margin-top: 2rem;
+    }
+
+    #impact .cta a {
+      display: inline-block;
+      padding: 0.75rem 1.5rem;
+      background: var(--accent-color);
+      color: var(--bg-color);
+      border-radius: 5px;
+      font-weight: 600;
+      transition: var(--transition);
+    }
+
+    #impact .cta a:hover {
+      background: #4b8ac8;
+    }
+
+    /* Prevention Section */
+    #prevention {
+      background: var(--primary-color);
+    }
+
+    #prevention h2 {
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+    }
+
+    #prevention ol {
+      padding-left: 1.5rem;
+    }
+
+    #prevention li {
+      font-size: 1rem;
+      color: #718096;
+      margin-bottom: 1rem;
+    }
+
+    #prevention .cta {
+      text-align: center;
+      margin-top: 2rem;
+    }
+
+    #prevention .cta a {
+      display: inline-block;
+      padding: 0.75rem 1.5rem;
+      background: var(--accent-color);
+      color: var(--bg-color);
+      border-radius: 5px;
+      font-weight: 600;
+      transition: var(--transition);
+    }
+
+    #prevention .cta a:hover {
+      background: #4b8ac8;
+    }
+
+    /* FAQ Section */
+    #faqs {
+      background: var(--bg-color);
+      text-align: center;
+    }
+
+    #faqs h2 {
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+    }
+
+    #faqs .faq-item {
+      background: var(--card-bg);
+      border: 1px solid var(--secondary-color);
+      border-radius: var(--border-radius);
+      padding: 1.5rem;
+      margin-bottom: 1rem;
+      text-align: left;
+      box-shadow: var(--shadow);
+    }
+
+    #faqs .faq-item h4 {
+      font-size: 1.2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    #faqs .faq-item p {
+      font-size: 0.9rem;
+      color: #718096;
+    }
+
+    @media (max-width: 768px) {
+      #dangers .danger-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="navbar fixed-top">
+    <div class="navbar-container">
+      <div class="navbar-brand">
+        <h1><a href="/"><img src="/static/images/logo.webp" alt="TrueScan Logo">TrueScan</a></h1>
+      </div>
+      <nav class="navbar-nav">
+        <a href="/" class="nav-link">Home</a>
+        <a href="#overview" class="nav-link">Overview</a>
+        <a href="#faqs" class="nav-link">FAQ</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section id="hero">
+    <div class="container">
+      <h1>What Are the Dangers of Deepfake Images?</h1>
+      <p>Deepfake images pose significant risks to individuals, businesses, and society. Explore the potential dangers and learn how to protect yourself with TrueScan.</p>
+    </div>
+  </section>
+
+  <!-- Overview Section -->
+  <section id="overview">
+    <div class="container">
+      <img src="/static/images/deepfake-danger.jpeg" alt="Deepfake danger illustration">
+      <h2>Overview</h2>
+      <p>Deepfake images, created using AI to manipulate or fabricate visual content, can deceive viewers into believing something false. While they have creative uses, their misuse can lead to serious consequences, including financial fraud, reputational damage, and societal harm.</p>
+    </div>
+  </section>
+
+  <!-- Dangers Section -->
+  <section id="dangers">
+    <div class="container">
+      <h2>Key Dangers of Deepfake Images</h2>
+      <div class="danger-grid">
+        <div class="danger-item">
+          <h4>Fraud and Scams</h4>
+          <p>Fake images can be used to impersonate individuals, tricking people into sending money or sharing sensitive information.</p>
+        </div>
+        <div class="danger-item">
+          <h4>Reputational Damage</h4>
+          <p>Deepfake images can depict individuals in compromising situations, leading to public humiliation or career damage.</p>
+        </div>
+        <div class="danger-item">
+          <h4>Misinformation</h4>
+          <p>Fabricated images can spread false narratives, influencing public opinion or elections with misleading visuals.</p>
+        </div>
+        <div class="danger-item">
+          <h4>Privacy Violations</h4>
+          <p>Non-consensual deepfake images, such as fake pornography, can violate privacy and cause emotional distress.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Impact Section -->
+  <section id="impact">
+    <div class="container">
+      <h2>Societal and Personal Impact</h2>
+      <ul>
+        <li><strong>Erosion of Trust:</strong> Widespread deepfake images can make people distrust legitimate media, leading to skepticism about truth.</li>
+        <li><strong>Legal Challenges:</strong> Victims of deepfake misuse often face difficulties in proving authenticity and seeking justice.</li>
+        <li><strong>Financial Losses:</strong> Businesses and individuals can suffer significant financial losses due to scams involving deepfake images.</li>
+        <li><strong>Psychological Harm:</strong> Victims of deepfake-related privacy violations often experience anxiety, shame, and emotional trauma.</li>
+      </ul>
+      <div class="cta">
+        <a href="/">Protect Yourself with TrueScan!</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Prevention Section -->
+  <section id="prevention">
+    <div class="container">
+      <h2>How to Mitigate the Risks</h2>
+      <ol>
+        <li><strong>Use Detection Tools:</strong> Leverage AI tools like TrueScan to verify the authenticity of suspicious images.</li>
+        <li><strong>Educate Yourself:</strong> Learn to recognize signs of deepfake images, such as unnatural facial features or inconsistent lighting.</li>
+        <li><strong>Secure Personal Data:</strong> Limit the public sharing of personal images to reduce the risk of them being used for deepfakes.</li>
+        <li><strong>Advocate for Regulation:</strong> Support laws and policies that address the misuse of deepfake technology.</li>
+      </ol>
+      <div class="cta">
+        <a href="/">Test TrueScan Detection Now!</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <section id="faqs">
+    <div class="container">
+      <h2>Frequently Asked Questions</h2>
+      <div class="faq-item">
+        <h4>Can deepfake images be used for scams?</h4>
+        <p>Yes, deepfake images can be used to impersonate individuals, tricking others into sending money or sharing sensitive information by creating convincing but fake visuals.</p>
+      </div>
+      <div class="faq-item">
+        <h4>How do deepfake images affect privacy?</h4>
+        <p>Deepfake images can violate privacy by creating non-consensual content, such as fake explicit images, leading to emotional distress and reputational harm for victims.</p>
+      </div>
+      <div class="faq-item">
+        <h4>Are deepfake images illegal?</h4>
+        <p>Laws vary by region. In some places, creating or distributing deepfake images without consent, especially for malicious purposes, is illegal, but global regulations are still evolving.</p>
+      </div>
+      <div class="faq-item">
+        <h4>How can I protect myself from deepfake image misuse?</h4>
+        <p>Use tools like TrueScan to verify suspicious images, limit sharing personal photos online, and stay informed about deepfake technology to recognize potential threats.</p>
+      </div>
+    </div>
+  </section>
+</body>
+</html>

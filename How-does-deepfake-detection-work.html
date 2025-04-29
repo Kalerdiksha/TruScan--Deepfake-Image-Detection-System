@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>How Does Deepfake Detection Work? | TrueScan</title>
+
+  <link rel="icon" type="image/webp" href="/static/images/logo.webp">
+  <link rel="icon" type="image/png" href="/static/images/logo.png"> <!-- Fallback -->
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;600;700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="/static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+  <style>
+    :root {
+      --primary-color: #F8FAFC;
+      --secondary-color: #DDE9F6;
+      --accent-color: #6BA8E0;
+      --gold-accent: #FFD700;
+      --text-color: #2A4365;
+      --bg-color: #FFFFFF;
+      --card-bg: #FFFFFF;
+      --shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      --border-radius: 10px;
+      --transition: all 0.3s ease-in-out;
+    }
+
+    body {
+      font-family: 'Roboto', sans-serif;
+      color: var(--text-color);
+      line-height: 1.6;
+      background: var(--bg-color);
+      scroll-behavior: smooth; /* Enable smooth scrolling for anchor links */
+    }
+
+    h1, h2, h3, h4 {
+      font-family: 'Lato', sans-serif;
+      font-weight: 600;
+      color: var(--text-color);
+    }
+
+    a { text-decoration: none; }
+
+    /* Navbar */
+    header.navbar {
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      padding: 0.75rem 0;
+      box-shadow: var(--shadow);
+      position: fixed;
+      width: 100%;
+      z-index: 1000;
+    }
+
+    .navbar-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    .navbar-brand {
+      display: flex;
+      align-items: center;
+    }
+
+    .navbar-brand img {
+      height: 40px; /* Adjust height to fit the navbar */
+      width: auto; /* Maintain aspect ratio */
+      object-fit: contain; /* Ensure the logo isn't distorted */
+      margin-right: 0.5rem; /* Space between logo and text */
+    }
+
+    .navbar-brand h1 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin: 0;
+    }
+
+    .navbar-brand h1 a { 
+      color: var(--text-color); 
+    }
+
+    .navbar-nav { 
+      display: flex; 
+      align-items: center; 
+    }
+    .nav-item { 
+      margin-left: 1.5rem; 
+    }
+    .nav-link {
+      color: var(--text-color);
+      font-size: 0.95rem;
+      font-weight: 500;
+      padding: 0.4rem 1.2rem;
+      background: var(--card-bg);
+      border: 1px solid var(--accent-color);
+      border-radius: 25px;
+      transition: var(--transition);
+    }
+
+    .nav-link:hover {
+      background: var(--accent-color);
+      color: var(--bg-color);
+    }
+
+    /* General Section Styling */
+    section {
+      padding: 4rem 0;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    /* Hero Section */
+    #hero {
+      padding-top: 6rem;
+      text-align: center;
+    }
+
+    #hero h1 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+
+    #hero p {
+      font-size: 1.1rem;
+      color: #718096;
+      margin-bottom: 2rem;
+    }
+
+    /* Overview Section */
+    #overview {
+      text-align: center;
+    }
+
+    #overview img {
+      width: 100%;
+      max-width: 400px;
+      border-radius: var(--border-radius);
+      margin-top: 2rem; /* Equal spacing above */
+      margin-bottom: 2rem; /* Equal spacing below */
+      margin-left: auto; /* Ensure horizontal centering */
+      margin-right: auto; /* Ensure horizontal centering */
+      display: block; /* Ensure the image is a block element to respect margins */
+    }
+
+    #overview h2 {
+      font-size: 3rem;
+      margin-bottom: 0; /* Remove default margin to control spacing */
+      text-transform: uppercase;
+    }
+
+    #overview p {
+      margin-top: 0; /* Remove default margin to control spacing */
+    }
+
+    /* Detection Process Section */
+    #detection-process {
+      background: var(--primary-color);
+    }
+
+    #detection-process h2 {
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+    }
+
+    #detection-process ol {
+      padding-left: 1.5rem;
+    }
+
+    #detection-process li {
+      font-size: 1rem;
+      color: #718096;
+      margin-bottom: 1rem;
+    }
+
+    #detection-process .cta {
+      text-align: center;
+      margin-top: 2rem;
+    }
+
+    #detection-process .cta a {
+      display: inline-block;
+      padding: 0.75rem 1.5rem;
+      background: var(--accent-color);
+      color: var(--bg-color);
+      border-radius: 5px;
+      font-weight: 600;
+      transition: var(--transition);
+    }
+
+    #detection-process .cta a:hover {
+      background: #4b8ac8;
+    }
+
+    /* Techniques Section */
+    #techniques {
+      background: var(--bg-color);
+    }
+
+    #techniques h2 {
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+    }
+
+    #techniques .technique-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+    }
+
+    #techniques .technique-item {
+      background: var(--card-bg);
+      border: 1px solid var(--secondary-color);
+      border-radius: var(--border-radius);
+      padding: 1.5rem;
+      box-shadow: var(--shadow);
+    }
+
+    #techniques .technique-item h4 {
+      font-size: 1.2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    #techniques .technique-item p {
+      font-size: 0.9rem;
+      color: #718096;
+    }
+
+    /* Challenges Section */
+    #challenges {
+      background: var(--primary-color);
+    }
+
+    #challenges h2 {
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+    }
+
+    #challenges ul {
+      padding-left: 1.5rem;
+      font-size: 1rem;
+      color: #718096;
+    }
+
+    #challenges li {
+      margin-bottom: 1rem;
+    }
+
+    #challenges .cta {
+      text-align: center;
+      margin-top: 2rem;
+    }
+
+    #challenges .cta a {
+      display: inline-block;
+      padding: 0.75rem 1.5rem;
+      background: var(--accent-color);
+      color: var(--bg-color);
+      border-radius: 5px;
+      font-weight: 600;
+      transition: var(--transition);
+    }
+
+    #challenges .cta a:hover {
+      background: #4b8ac8;
+    }
+
+    /* FAQ Section */
+    #faqs {
+      background: var(--bg-color);
+      text-align: center;
+    }
+
+    #faqs h2 {
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+    }
+
+    #faqs .faq-item {
+      background: var(--card-bg);
+      border: 1px solid var(--secondary-color);
+      border-radius: var(--border-radius);
+      padding: 1.5rem;
+      margin-bottom: 1rem;
+      text-align: left;
+      box-shadow: var(--shadow);
+    }
+
+    #faqs .faq-item h4 {
+      font-size: 1.2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    #faqs .faq-item p {
+      font-size: 0.9rem;
+      color: #718096;
+    }
+
+    @media (max-width: 768px) {
+      #techniques .technique-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .navbar-container {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .navbar-nav {
+        margin-top: 1rem;
+        width: 100%;
+        justify-content: flex-end;
+      }
+
+      .navbar-brand img {
+        height: 32px; /* Smaller logo on mobile */
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="navbar fixed-top">
+    <div class="navbar-container">
+      <div class="navbar-brand">
+        <h1><a href="/"><img src="/static/images/logo.webp" alt="TrueScan Logo">TrueScan</a></h1>
+      </div>
+      <nav class="navbar-nav">
+        <a href="/" class="nav-link">Home</a>
+        <a href="#overview" class="nav-link">Overview</a>
+        <a href="#faqs" class="nav-link">FAQ</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section id="hero">
+    <div class="container">
+      <h1>How Does TrueScan Work?</h1>
+      <p>Discover the technology and methods behind identifying AI-generated images. Learn how TrueScan uses advanced AI to detect deepfakes and protect against fraud.</p>
+    </div>
+  </section>
+
+  <!-- Overview Section -->
+  <section id="overview">
+    <div class="container">
+      <img src="/static/images/detection-process.webp" alt="Deepfake detection illustration">
+      <h2>Overview</h2>
+      <p>TrueScan involves using artificial intelligence to identify manipulated images created by AI. Tools like DFDetect analyze subtle inconsistencies that are often invisible to the human eye, helping users verify the authenticity of visual content and protect against deception.</p>
+    </div>
+  </section>
+
+  <!-- Detection Process Section -->
+  <section id="detection-process">
+    <div class="container">
+      <h2>The Detection Process</h2>
+      <ol>
+        <li><strong>Data Collection:</strong> The system gathers a large dataset of both real and AI-generated images to train detection models.</li>
+        <li><strong>Feature Extraction:</strong> Algorithms identify key visual features, such as facial landmarks or texture patterns, that differ between real and fake images.</li>
+        <li><strong>Model Training:</strong> Machine learning models, like convolutional neural networks (CNNs), are trained to classify images as real or fake based on extracted features.</li>
+        <li><strong>Analysis and Scoring:</strong> The trained model analyzes new images and assigns a probability score indicating the likelihood of it being a deepfake.</li>
+        <li><strong>User Feedback:</strong> Tools like TrueScan provide users with results, often including confidence scores, to guide decision-making.</li>
+      </ol>
+      <div class="cta">
+        <a href="/">Try TrueScan Detection Now!</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Techniques Section -->
+  <section id="techniques">
+    <div class="container">
+      <h2>Key Detection Techniques</h2>
+      <div class="technique-grid">
+        <div class="technique-item">
+          <h4>Image Analysis</h4>
+          <p>Examines pixel-level inconsistencies, such as unnatural blending around facial features or irregular lighting patterns.</p>
+        </div>
+        <div class="technique-item">
+          <h4>Behavioral Modeling</h4>
+          <p>Detects irregularities in facial movements or expressions that deviate from natural human behavior in images.</p>
+        </div>
+        <div class="technique-item">
+          <h4>Machine Learning</h4>
+          <p>Uses deep learning models like EfficientNet or Xception to classify images based on learned patterns of authenticity.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Challenges Section -->
+  <section id="challenges">
+    <div class="container">
+      <h2>Challenges in Deepfake Detection</h2>
+      <ul>
+        <li><strong>Evolving Technology:</strong> Deepfake creation tools improve rapidly, making detection harder as fake images become more realistic.</li>
+        <li><strong>High-Quality Fakes:</strong> Advanced deepfake images may lack obvious flaws, requiring more sophisticated detection methods.</li>
+        <li><strong>Data Limitations:</strong> Training accurate models requires large, diverse datasets of images, which can be hard to obtain.</li>
+        <li><strong>Real-Time Detection:</strong> Processing images quickly enough for real-time applications remains a technical challenge.</li>
+      </ul>
+      <div class="cta">
+        <a href="/">Protect Yourself with TrueScan!</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <section id="faqs">
+    <div class="container">
+      <h2>Frequently Asked Questions</h2>
+      <div class="faq-item">
+        <h4>What technologies are used in deepfake image detection?</h4>
+        <p>Deepfake image detection uses machine learning models like convolutional neural networks (CNNs), such as EfficientNet and Xception, to analyze visual inconsistencies. These models are trained on large datasets of real and AI-generated images to identify subtle patterns.</p>
+      </div>
+      <div class="faq-item">
+        <h4>How accurate is deepfake image detection?</h4>
+        <p>Accuracy varies depending on the model and dataset. TrueScan achieves up to 92% accuracy by using advanced models and extensive training, as shown in our experimental results on the homepage.</p>
+      </div>
+      <div class="faq-item">
+        <h4>Can deepfake detection work on all types of images?</h4>
+        <p>While effective on many image types, detection can struggle with highly compressed or low-resolution images, as these may obscure the subtle flaws that detection algorithms rely on.</p>
+      </div>
+      <div class="faq-item">
+        <h4>Is real-time deepfake image detection possible?</h4>
+        <p>Real-time detection is challenging due to the computational power required, but advancements in hardware and optimized algorithms are making it increasingly feasible for tools like TrueScan.</p>
+      </div>
+    </div>
+  </section>
+</body>
+</html>
